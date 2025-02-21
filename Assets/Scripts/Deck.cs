@@ -12,13 +12,21 @@ public class Deck : MonoBehaviour
     [SerializeField]
     private Transform cardParent;
 
-    // Start is called before the first frame update
-    void Start()
+    private int cardIndex = 0;
+
+    private static Deck instance;
+
+    private void Awake()
     {
+        // setting up singleton
+        if (instance != null && instance != this)
+            Destroy(this);
+        instance = this;
+
         // copying cards in resources folder to our deck
         CardData[] cardData = Resources.LoadAll<CardData>(CardInfo.cardDataDirectory);
-        
-        foreach(CardData cardDatum in cardData)
+
+        foreach (CardData cardDatum in cardData)
         {
             Card card = Instantiate(cardPrefab, cardParent).GetComponent<Card>();
             card.Sprite = cardDatum.Sprite;
@@ -28,26 +36,19 @@ public class Deck : MonoBehaviour
             card.gameObject.GetComponent<Image>().sprite = card.Sprite;
             cards.Add(card);
         }
+
+        Shuffle();
     }
 
-    // Update is called once per frame
-    void Update()
+    public static Deck Instance()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Shuffle();
-        }
+        return instance;
     }
 
     // fisher - yates shuffle
     // https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
     public void Shuffle()
     {
-        foreach (Card card in cards)
-        {
-            card.GetComponent<RectTransform>().parent = null;
-        }
-
         for (int i = cards.Count -1; i >= 1; i--)
         {
             int indexToSwap = Random.Range(0, i);
@@ -55,10 +56,12 @@ public class Deck : MonoBehaviour
             cards[i] = cards[indexToSwap];
             cards[indexToSwap] = temp;
         }
+    }
+    public Card Draw()
+    {
+        if (cardIndex >= cards.Count)
+            Debug.LogError("END OF DECK REACHED!");
 
-        foreach (Card card in cards)
-        {
-            card.GetComponent<RectTransform>().parent = cardParent;
-        }
+        return cards[cardIndex++];
     }
 }
