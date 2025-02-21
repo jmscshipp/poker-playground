@@ -33,11 +33,32 @@ public class Deck : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Shuffle();
+        }
     }
 
+    // fisher - yates shuffle
+    // https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
     public void Shuffle()
     {
+        foreach (Card card in cards)
+        {
+            card.GetComponent<RectTransform>().parent = null;
+        }
 
+        for (int i = cards.Count -1; i >= 1; i--)
+        {
+            int indexToSwap = Random.Range(0, i);
+            Card temp = cards[i];
+            cards[i] = cards[indexToSwap];
+            cards[indexToSwap] = temp;
+        }
+
+        foreach (Card card in cards)
+        {
+            card.GetComponent<RectTransform>().parent = cardParent;
+        }
     }
 }
