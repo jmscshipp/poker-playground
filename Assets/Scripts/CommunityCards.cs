@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class CommunityCards : MonoBehaviour
@@ -11,7 +12,12 @@ public class CommunityCards : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        // if debugging, add cards setup in editor instead of having them drawn from deck
+        if (SessionManager.debugMode)
+        {
+            foreach (Card card in cardParent.GetComponentsInChildren<Card>())
+                hand.Add(card);
+        }
     }
 
     // Update is called once per frame
@@ -29,4 +35,6 @@ public class CommunityCards : MonoBehaviour
             hand.Add(newCard);
         }
     }
+
+    public List<Card> GetCards() { return hand; }
 }

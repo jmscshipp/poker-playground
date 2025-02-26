@@ -714,6 +714,7 @@ MonoBehaviour:
   - {fileID: 1097196652}
   - {fileID: 991983725}
   communityCards: {fileID: 858810293}
+  setToDebugMode: 0
 --- !u!1001 &1298364666
 PrefabInstance:
   m_ObjectHideFlags: 0
