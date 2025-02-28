@@ -48,7 +48,7 @@ public class SessionManager : MonoBehaviour
     {
         List<Card> hand = communityCards.GetCards();
         hand.AddRange(players[0].GetCards());
-        CardInfo.FindBestHand(hand);
+        Debug.Log(CardInfo.FindBestHand(hand));
         //foreach (Player player in players)
         //{
         //    // find best hand for each player and sort
