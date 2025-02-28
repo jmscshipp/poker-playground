@@ -45,7 +45,32 @@ public static class CardInfo
         HighCard
     }
 
-    // helper function to get rid of duplicate ranks in hand
+    public static string GetFormattedHandName(Hands hand)
+    {
+        switch (hand)
+        {
+            case Hands.StraightFlush:
+                return "straight flush";
+            case Hands.Quads:
+                return "four of a kind";
+            case Hands.FullHouse:
+                return "full house";
+            case Hands.Flush:
+                return "flush";
+            case Hands.Straight:
+                return "straight";
+            case Hands.Threes:
+                return "three of a kind";
+            case Hands.TwoPair:
+                return "two pair";
+            case Hands.Pair:
+                return "pair";
+            default:
+                return "high card";
+        }
+    }
+
+    // histogram helper function to get rid of duplicate ranks in hand
     private static List<Card> GetDistinctRanks(List<Card> cards)
     {
         List<Card> distinctRanks = new List<Card>();
@@ -60,7 +85,6 @@ public static class CardInfo
     public static Hands FindBestHand(List<Card> cards) // for now assuming only 5 card hands are passed...
     {
         // create histogram (list of # of each rank in hand)
-
         List<int> histogram = new List<int>();
         foreach(Card uniqueCard in GetDistinctRanks(cards))
         {
@@ -77,9 +101,6 @@ public static class CardInfo
 
         // at this point we have the histogram sorted from highest to lowest
         // check for rank-based hands:
-
-        foreach(int num in histogram)
-            Debug.Log(num);
 
         if (histogram.SequenceEqual(new List<int> { 4, 1 }))
         {
@@ -101,12 +122,7 @@ public static class CardInfo
         {
             return Hands.Pair;
         }
-        //else // if (histogram == new List<int> { 1, 1, 1, 1, 1 })
-        //{
-        //    bestHand = Hands.HighCard;
-        //}
 
-        Hands bestHand;
         bool flush = true;
         bool straight = false;
 
@@ -126,11 +142,14 @@ public static class CardInfo
         if (difference == 4 || sortedCards[0].Rank == Ranks.Ace && sortedCards[1].Rank == Ranks.Five)
             straight = true;
 
-
-        Debug.Log("straight: " + straight);
-        // NEXT STEPS:
-        // test straight code for edge cases- especially with aces and 'wheels'.... using debug setup
-
-        return Hands.TwoPair;
+        // final evaluation
+        if (flush && straight)
+            return Hands.StraightFlush;
+        else if (flush)
+            return Hands.Flush;
+        else if (straight)
+            return Hands.Straight;
+        else
+            return Hands.HighCard;
     }
 }

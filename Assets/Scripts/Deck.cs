@@ -49,6 +49,8 @@ public class Deck : MonoBehaviour
     // https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
     public void Shuffle()
     {
+        cardIndex = 0;
+
         for (int i = cards.Count -1; i >= 1; i--)
         {
             int indexToSwap = Random.Range(0, i);
