@@ -938,10 +938,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 858810290}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc341e2066da6dc47bbbca2961a300a6, type: 3}
+  m_Script: {fileID: 11500000, guid: afc4ea9c36ffb604dacac2894fc585a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isCommunityArea: 1
   cardParent: {fileID: 858810291}
+  handText: {fileID: 0}
 --- !u!224 &991983726 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1672218789668959084, guid: f6cc6a8aefdc24742aeb163026b7aacb, type: 3}

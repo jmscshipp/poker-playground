@@ -57,7 +57,7 @@ public class SessionManager : MonoBehaviour
     {
         foreach (Player player in players)
         {
-            List<Card> hand = communityCards.GetCards();
+            List<Card> hand = new List<Card>(communityCards.GetCards());
             hand.AddRange(player.GetCards());
             player.SetHandText(CardInfo.GetFormattedHandName(CardInfo.FindBestHand(hand)));
         }

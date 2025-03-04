@@ -66,4 +66,13 @@ public class Deck : MonoBehaviour
 
         return cards[cardIndex++];
     }
+
+    // cards are returned to deck card parent when they aren't in a player hand anymore
+    public void ReturnToDeck(Card card)
+    {
+        RectTransform cardTransform = card.GetComponent<RectTransform>();
+        cardTransform.parent = cardParent;
+        cardTransform.localScale = Vector3.one;
+        cardTransform .localPosition = Vector3.zero;
+    }
 }

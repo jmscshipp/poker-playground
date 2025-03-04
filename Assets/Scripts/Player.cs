@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     private Transform cardParent;
     [SerializeField]
     private TextMeshProUGUI handText;
-    private List<Card> hand = new List<Card>();
+    public List<Card> hand = new List<Card>();
 
     // Start is called before the first frame update
     void Start()
@@ -33,11 +33,11 @@ public class Player : MonoBehaviour
     public void ClearHand()
     {
         int initialHandCount = hand.Count;
-        for (int i = 0; i < initialHandCount - 1; i++)
+        for (int i = 0; i < initialHandCount; i++)
         {
             Card card = hand[0];
-            hand.Remove(card); 
-            Destroy(card.gameObject);
+            hand.Remove(card);
+            Deck.Instance().ReturnToDeck(card);
         }
     }
 
