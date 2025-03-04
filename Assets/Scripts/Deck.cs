@@ -61,6 +61,7 @@ public class Deck : MonoBehaviour
     }
     public Card Draw()
     {
+        Debug.Log("drawing");
         if (cardIndex >= cards.Count)
             Debug.LogError("END OF DECK REACHED!");
 
@@ -70,9 +71,10 @@ public class Deck : MonoBehaviour
     // cards are returned to deck card parent when they aren't in a player hand anymore
     public void ReturnToDeck(Card card)
     {
+        Debug.Log("returning to deck");
         RectTransform cardTransform = card.GetComponent<RectTransform>();
         cardTransform.parent = cardParent;
-        cardTransform.localScale = Vector3.one;
+        //cardTransform.localScale = Vector3.one;
         cardTransform .localPosition = Vector3.zero;
     }
 }

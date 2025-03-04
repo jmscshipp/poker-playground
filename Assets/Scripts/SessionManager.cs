@@ -39,16 +39,18 @@ public class SessionManager : MonoBehaviour
     {
         if (debugMode == false)
         {
+            // clear last round
+            communityCards.ClearHand();
+            foreach (Player player in players)
+                player.ClearHand();
+
+            // shuffle
             Deck.Instance().Shuffle();
 
-            communityCards.ClearHand();
+            // re-deal
             communityCards.AddCards(3);
-
             foreach (Player player in players)
-            {
-                player.ClearHand();
                 player.AddCards(2);
-            }
         }
         FindWinningHand();
     }
