@@ -6,7 +6,7 @@ using UnityEngine;
 public class SessionManager : MonoBehaviour
 {
     [SerializeField]
-    private Player[] players;
+    private static List<Player> players = new List<Player>();
     [SerializeField]
     private Player communityCards;
 
@@ -15,13 +15,25 @@ public class SessionManager : MonoBehaviour
     private bool setToDebugMode = false;
     public static bool debugMode = false;
 
+    private static SessionManager instance;
 
     private void Awake()
     {
+        // setting up singleton
+        if (instance != null && instance != this)
+            Destroy(this);
+        instance = this;
+
         // this feels kinda dumb
         if (setToDebugMode)
             debugMode = true;
     }
+
+    public static SessionManager Instance()
+    {
+        return instance;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -64,5 +76,22 @@ public class SessionManager : MonoBehaviour
             player.SetHandText(CardInfo.GetFormattedHandName(CardInfo.FindBestHand(hand)));
         }
         return players[0];
+    }
+
+    // set up to return player that was removed to playersUI to cleanup canvas objects
+    public Player RemovePlayer()
+    {
+        if (players.Count == 0) 
+            return null;
+
+        Player playerToRemove = players[0];
+        players.Remove(players[0]);
+        return playerToRemove;
+    }
+
+    public void AddPlayer(Player player)
+    {
+        if (players.Count < 10)
+            players.Add(player);
     }
 }
