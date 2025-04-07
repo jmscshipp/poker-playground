@@ -64,7 +64,9 @@ public class SessionManager : MonoBehaviour
             foreach (Player player in players)
                 player.AddCards(2);
         }
-        FindWinningHand();
+
+        Player winningPlayer = FindWinningHand();
+        winningPlayer.SetWinnerGraphicsOn(true);
     }
 
     private Player FindWinningHand()

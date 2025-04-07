@@ -21,7 +21,8 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SetWinnerGraphicsOn(false);
+        if (!isCommunityArea)
+            SetWinnerGraphicsOn(false);
 
         // if debugging, add cards setup in editor instead of having them drawn from deck
         if (SessionManager.debugMode)
@@ -33,6 +34,8 @@ public class Player : MonoBehaviour
 
     public void ClearHand()
     {
+        SetWinnerGraphicsOn(false);
+
         int initialHandCount = hand.Count;
         for (int i = 0; i < initialHandCount; i++)
         {
@@ -67,6 +70,12 @@ public class Player : MonoBehaviour
     // call to turn on or off winner graphics when a hand is played
     public void SetWinnerGraphicsOn(bool on)
     {
+        if (isCommunityArea)
+        {
+            Debug.LogError("Accidentally tried to set winner graphics for community area!!");
+            return;
+        }
+
         if (on)
         {
             winnerText.color = new Color(winnerText.color.r, winnerText.color.g, winnerText.color.b, 100f);
