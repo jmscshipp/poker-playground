@@ -75,6 +75,6 @@ public class Deck : MonoBehaviour
         RectTransform cardTransform = card.GetComponent<RectTransform>();
         cardTransform.parent = cardParent;
         //cardTransform.localScale = Vector3.one;
-        cardTransform .localPosition = Vector3.zero;
+        cardTransform.localPosition = Vector3.zero;
     }
 }

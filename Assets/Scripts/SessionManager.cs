@@ -37,7 +37,7 @@ public class SessionManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PlayRound();
+        //PlayRound();
     }
 
     // Update is called once per frame
@@ -81,7 +81,7 @@ public class SessionManager : MonoBehaviour
     // set up to return player that was removed to playersUI to cleanup canvas objects
     public Player RemovePlayer()
     {
-        if (players.Count == 0) 
+        if (players.Count == 1) 
             return null;
 
         Player playerToRemove = players[0];

@@ -39,8 +39,12 @@ public class PlayersUI : MonoBehaviour
     public void RemovePlayer()
     {
         // get the canvas objects of the UI being removed
-        Transform playerUI = SessionManager.Instance().RemovePlayer().transform;
+        Player playerToRemove = SessionManager.Instance().RemovePlayer();
         // for now, just delete the player object... may want to change this in the future?
-        Destroy(playerUI.gameObject);
+        if (playerToRemove != null)
+        {
+            playerToRemove.ClearHand();
+            Destroy(playerToRemove.gameObject);
+        }
     }
 }

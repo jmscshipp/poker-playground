@@ -24,18 +24,12 @@ public class Player : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void ClearHand()
     {
         int initialHandCount = hand.Count;
         for (int i = 0; i < initialHandCount; i++)
         {
-            Card card = hand[0];
+            Card card = hand[0]; // 
             hand.Remove(card);
             Deck.Instance().ReturnToDeck(card);
         }
