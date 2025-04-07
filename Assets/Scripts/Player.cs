@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -10,12 +11,18 @@ public class Player : MonoBehaviour
     [SerializeField]
     private Transform cardParent;
     [SerializeField]
+    private TextMeshProUGUI winnerText;
+    [SerializeField]
+    private Image winnerOutlineImage;
+    [SerializeField]
     private TextMeshProUGUI handText;
     public List<Card> hand = new List<Card>();
 
     // Start is called before the first frame update
     void Start()
     {
+        SetWinnerGraphicsOn(false);
+
         // if debugging, add cards setup in editor instead of having them drawn from deck
         if (SessionManager.debugMode)
         {
@@ -55,5 +62,20 @@ public class Player : MonoBehaviour
             return;
         }
         handText.text = text;
+    }
+
+    // call to turn on or off winner graphics when a hand is played
+    public void SetWinnerGraphicsOn(bool on)
+    {
+        if (on)
+        {
+            winnerText.color = new Color(winnerText.color.r, winnerText.color.g, winnerText.color.b, 100f);
+            winnerOutlineImage.enabled = true;
+        }
+        else
+        {
+            winnerText.color = new Color(winnerText.color.r, winnerText.color.g, winnerText.color.b, 0f);
+            winnerOutlineImage.enabled = false;
+        }
     }
 }
