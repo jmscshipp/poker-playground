@@ -18,6 +18,8 @@ public class Player : MonoBehaviour
     private TextMeshProUGUI handText;
     public List<Card> hand = new List<Card>();
 
+    private CardInfo.PlayerHandData handData;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +32,20 @@ public class Player : MonoBehaviour
             foreach (Card card in cardParent.GetComponentsInChildren<Card>())
                 hand.Add(card);
         }
+    }
+
+    public void DetermineHand(List<Card> communityCards)
+    {
+        List<Card> completeHand = new List<Card>(hand);
+        completeHand.AddRange(communityCards);
+
+        // !!! come back here when implementing 7 card game and save only the cards being used in the 
+        // best hand to handData.hand here:
+        handData.hand = completeHand;
+        CardInfo.Hands handType = CardInfo.FindHandType(completeHand);
+
+        handData.handType = handType;
+        SetHandText(CardInfo.GetFormattedHandName(handType));
     }
 
     public void ClearHand()
@@ -56,6 +72,8 @@ public class Player : MonoBehaviour
     }
 
     public List<Card> GetCards () { return hand; }
+
+    public CardInfo.PlayerHandData GetHandData() { return handData; }
 
     public void SetHandText(string text)
     {

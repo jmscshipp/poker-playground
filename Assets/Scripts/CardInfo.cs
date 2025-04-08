@@ -7,6 +7,12 @@ public static class CardInfo
 {
     public static string cardDataDirectory = "Cards"; // Assets/Resources/Cards
 
+    public struct PlayerHandData
+    {
+        public List<Card> hand;
+        public Hands handType;
+    }
+
     public enum Suits
     {
         Hearts,
@@ -82,7 +88,8 @@ public static class CardInfo
         return distinctRanks;
     }
 
-    public static Hands FindBestHand(List<Card> cards) // for now assuming only 5 card hands are passed...
+    // returns the best possible hand from the collection of cards given
+    public static Hands FindHandType(List<Card> cards) // for now assuming only 5 card hands are passed...
     {
         // create histogram (list of # of each rank in hand)
         List<int> histogram = new List<int>();
@@ -151,5 +158,44 @@ public static class CardInfo
             return Hands.Straight;
         else
             return Hands.HighCard;
+    }
+
+    public static Player FindBestHand(Player player1, Player player2)
+    {
+        PlayerHandData p1 = player1.GetHandData();
+        PlayerHandData p2 = player2.GetHandData();
+
+        // same hand type, need to determine winner more specifically
+        if (p1.handType == p2.handType)
+        {
+            switch (p1.handType)
+            {
+                case Hands.StraightFlush:
+                    break;
+                case Hands.Quads:
+                    break;
+                case Hands.FullHouse: // STOPPING POINT! FILL OUT THE SPECIFIC CASES FOR EVERY HAND
+                    break;
+                case Hands.Flush:
+                    break;
+                case Hands.Straight:
+                    break;
+                case Hands.Threes:
+                    break;
+                case Hands.TwoPair:
+                    break;
+                case Hands.Pair:
+                    break;
+                // high card
+                default:
+                    break;
+            }
+        }
+        // player 1 hand type is better
+        else if (p1.handType < p2.handType)
+            return player1;
+        // player 2 hand type is better
+        else
+            return player2;
     }
 }

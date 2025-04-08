@@ -72,12 +72,17 @@ public class SessionManager : MonoBehaviour
     private Player FindWinningHand()
     {
         foreach (Player player in players)
+            player.DetermineHand(communityCards.GetCards());
+
+        int winningPlayer = 0;
+        for (int i = 1; i < players.Count; i++)
         {
-            List<Card> hand = new List<Card>(communityCards.GetCards());
-            hand.AddRange(player.GetCards());
-            player.SetHandText(CardInfo.GetFormattedHandName(CardInfo.FindBestHand(hand)));
+            // comparing the enum index of the hands to find the highest of all players
+            if (players[i].GetHandData().handType < players[winningPlayer].GetHandData().handType)
+                winningPlayer = i;
+            
         }
-        return players[0];
+        return players[winningPlayer];
     }
 
     // set up to return player that was removed to playersUI to cleanup canvas objects
