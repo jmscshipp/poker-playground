@@ -17,6 +17,11 @@ public class SessionManager : MonoBehaviour
 
     private static SessionManager instance;
 
+    public static SessionManager Instance()
+    {
+        return instance;
+    }
+
     private void Awake()
     {
         // setting up singleton
@@ -27,17 +32,6 @@ public class SessionManager : MonoBehaviour
         // this feels kinda dumb
         if (setToDebugMode)
             debugMode = true;
-    }
-
-    public static SessionManager Instance()
-    {
-        return instance;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        //PlayRound();
     }
 
     // Update is called once per frame
@@ -64,25 +58,36 @@ public class SessionManager : MonoBehaviour
             foreach (Player player in players)
                 player.AddCards(2);
         }
+        // debugging hand created players
+        else
+        {
+            foreach(GameObject debugPlayer in GameObject.FindGameObjectsWithTag("Player"))
+                players.Add(debugPlayer.GetComponent<Player>());
+        }
 
-        Player winningPlayer = FindWinningHand();
-        winningPlayer.SetWinnerGraphicsOn(true);
+        foreach(Player player in FindWinningHand())
+            player.SetWinnerGraphicsOn(true);
     }
 
-    private Player FindWinningHand()
+    private List<Player> FindWinningHand()
     {
+        // set up hand data for each player
         foreach (Player player in players)
             player.DetermineHand(communityCards.GetCards());
 
-        int winningPlayer = 0;
+        // determine winner
+        List<Player> winningPlayers = new List<Player> { players[0] };
         for (int i = 1; i < players.Count; i++)
         {
-            // comparing the enum index of the hands to find the highest of all players
-            if (players[i].GetHandData().handType < players[winningPlayer].GetHandData().handType)
-                winningPlayer = i;
-            
+            foreach (Player currentWinner in winningPlayers)
+                winningPlayers = CardInfo.FindBestHand(currentWinner, players[i]);
+
+            // -> CONTINUE HERE
+            // running into a very specific issue in the configuration setup in debug rn.
+            // if there's a tie following by a loser, only the more recent player in the tie will stay as a winner
+            // the original tie holder will be overwritten. need to find a way to keep the tie holders together or something
         }
-        return players[winningPlayer];
+        return winningPlayers;
     }
 
     // set up to return player that was removed to playersUI to cleanup canvas objects

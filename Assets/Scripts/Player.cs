@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Linq;
 
 public class Player : MonoBehaviour
 {
@@ -41,16 +42,19 @@ public class Player : MonoBehaviour
 
         // !!! come back here when implementing 7 card game and save only the cards being used in the 
         // best hand to handData.hand here:
-        handData.hand = completeHand;
-        CardInfo.Hands handType = CardInfo.FindHandType(completeHand);
 
-        handData.handType = handType;
-        SetHandText(CardInfo.GetFormattedHandName(handType));
+        // save hand data for winning comparisons
+        handData.hand = completeHand.OrderBy(i => i.Rank).ToList(); // order by rank
+        handData.hand.Reverse(); // make higher ranked cards at the front of the list
+        handData.handType = CardInfo.FindHandType(completeHand);
+
+        SetHandText(CardInfo.GetFormattedHandName(handData.handType));
     }
 
     public void ClearHand()
     {
-        SetWinnerGraphicsOn(false);
+        if (!isCommunityArea)
+            SetWinnerGraphicsOn(false);
 
         int initialHandCount = hand.Count;
         for (int i = 0; i < initialHandCount; i++)
