@@ -18,11 +18,8 @@ public class PlayersUI : MonoBehaviour
 
     private void Start()
     {
-        if (!SessionManager.debugMode)
-        {
-            for (int i = 0; i < startPlayers; i++)
-                AddPlayer();
-        }
+        for (int i = 0; i < startPlayers; i++)
+            AddPlayer();
     }
 
     public void AddPlayer()

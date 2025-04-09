@@ -160,31 +160,42 @@ public static class CardInfo
             return Hands.HighCard;
     }
 
-    // returns winning hand out of two players
-    public static List<Player> FindBestHand(Player player1, Player player2)
+    public static Player FindBestHand(Player player1, Player player2)
     {
         PlayerHandData p1 = player1.GetHandData();
         PlayerHandData p2 = player2.GetHandData();
-    
+
         // same hand type, need to determine winner more specifically
         if (p1.handType == p2.handType)
         {
-            for (int i = 0; i < p1.hand.Count; i++)
+            switch (p1.handType)
             {
-                if (p1.hand[i].Rank > p2.hand[i].Rank)
-                    return new List<Player>{ player1 };
-                if (p1.hand[i].Rank < p2.hand[i].Rank)
-                    return new List<Player> { player2 };
+                case Hands.StraightFlush:
+                    break;
+                case Hands.Quads:
+                    break;
+                case Hands.FullHouse: // STOPPING POINT! FILL OUT THE SPECIFIC CASES FOR EVERY HAND
+                    break;
+                case Hands.Flush:
+                    break;
+                case Hands.Straight:
+                    break;
+                case Hands.Threes:
+                    break;
+                case Hands.TwoPair:
+                    break;
+                case Hands.Pair:
+                    break;
+                // high card
+                default:
+                    break;
             }
-
-            // if this code is reached, a tie has occurred and multiple players have won!
-            return new List<Player> { player1, player2 };
         }
         // player 1 hand type is better
         else if (p1.handType < p2.handType)
-            return new List<Player> { player1 };
+            return player1;
         // player 2 hand type is better
         else
-            return new List<Player> { player2 };
+            return player2;
     }
 }
