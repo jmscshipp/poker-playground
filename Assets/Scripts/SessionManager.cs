@@ -74,15 +74,13 @@ public class SessionManager : MonoBehaviour
         foreach (Player player in players)
             player.DetermineHand(communityCards.GetCards());
 
-        int winningPlayer = 0;
-        for (int i = 1; i < players.Count; i++)
+        List<Player> winners = new List<Player>{ players[0] };
+        for (int i = 1; i < winners.Count; i++)
         {
-            // comparing the enum index of the hands to find the highest of all players
-            if (players[i].GetHandData().handType < players[winningPlayer].GetHandData().handType)
-                winningPlayer = i;
-            
+            winners = CardInfo.FindBestHand()
+
+                // okay here need to make it so the find best hand function checks against the whoel list
         }
-        return players[winningPlayer];
     }
 
     // set up to return player that was removed to playersUI to cleanup canvas objects

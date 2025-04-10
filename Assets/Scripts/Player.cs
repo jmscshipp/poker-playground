@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Linq;
 
 public class Player : MonoBehaviour
 {
@@ -41,7 +42,8 @@ public class Player : MonoBehaviour
 
         // !!! come back here when implementing 7 card game and save only the cards being used in the 
         // best hand to handData.hand here:
-        handData.hand = completeHand;
+        handData.hand = completeHand.OrderBy(i => i.Rank).ToList();
+        handData.hand.Reverse();
         CardInfo.Hands handType = CardInfo.FindHandType(completeHand);
 
         handData.handType = handType;
