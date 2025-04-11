@@ -16,6 +16,11 @@ public class Deck : MonoBehaviour
 
     private static Deck instance;
 
+    public static Deck Instance()
+    {
+        return instance;
+    }
+
     private void Awake()
     {
         // setting up singleton
@@ -38,11 +43,6 @@ public class Deck : MonoBehaviour
         }
 
         Shuffle();
-    }
-
-    public static Deck Instance()
-    {
-        return instance;
     }
 
     // fisher - yates shuffle

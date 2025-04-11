@@ -160,28 +160,32 @@ public static class CardInfo
             return Hands.HighCard;
     }
 
-    public static List<Player> FindBestHand(Player player1, Player player2)
+    public static List<Player> FindBestHand(List<Player> currentWinners, Player contender)
     {
-        PlayerHandData p1 = player1.GetHandData();
-        PlayerHandData p2 = player2.GetHandData();
+        PlayerHandData currentWinnerData = currentWinners[0].GetHandData();
+        PlayerHandData contenderData = contender.GetHandData();
 
         // same hand type, need to determine winner more specifically
-        if (p1.handType == p2.handType)
+        if (currentWinnerData.handType == contenderData.handType)
         {
-            for (int i = 0; i < p1.hand.Count; i++)
+            // compare hands card by card
+            for (int i = 0; i < currentWinnerData.hand.Count; i++)
             {
-                if (p1.hand[i].Rank > p2.hand[i].Rank)
-                    return new List<Player> { player1 };
-                else if (p1.hand[i].Rank < p2.hand[i].Rank)
-                    return new List<Player> {  player2 };
+                if (currentWinnerData.hand[i].Rank > contenderData.hand[i].Rank)
+                    return currentWinners;
+                else if (currentWinnerData.hand[i].Rank < contenderData.hand[i].Rank)
+                    return new List<Player> { contender };
             }
-            return new List<Player> { player1, player2 };
+            // tie, add contender to winner list
+            List<Player> combinedWinners = new List<Player>(currentWinners);
+            combinedWinners.Add(contender);
+            return combinedWinners;
         }
         // player 1 hand type is better
-        else if (p1.handType < p2.handType)
-            return new List<Player> { player1 };
+        else if (currentWinnerData.handType < contenderData.handType)
+            return currentWinners;
         // player 2 hand type is better
         else
-            return new List<Player> { player2 };
+            return new List<Player> { contender };
     }
 }

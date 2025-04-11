@@ -64,23 +64,29 @@ public class SessionManager : MonoBehaviour
             foreach (Player player in players)
                 player.AddCards(2);
         }
+        else
+        {
+            foreach (GameObject debugPlayer in GameObject.FindGameObjectsWithTag("Player"))
+                players.Add(debugPlayer.GetComponent<Player>());
+        }
 
-        Player winningPlayer = FindWinningHand();
-        winningPlayer.SetWinnerGraphicsOn(true);
+        List<Player> winningPlayers = FindWinningHand();
+        foreach (Player player in winningPlayers)
+            player.SetWinnerGraphicsOn(true);
+
+        // here mess with stastiics for winning hand too
     }
 
-    private Player FindWinningHand()
+    private List<Player> FindWinningHand()
     {
         foreach (Player player in players)
             player.DetermineHand(communityCards.GetCards());
 
         List<Player> winners = new List<Player>{ players[0] };
-        for (int i = 1; i < winners.Count; i++)
-        {
-            winners = CardInfo.FindBestHand()
+        for (int i = 1; i < players.Count; i++)
+            winners = CardInfo.FindBestHand(winners, players[i]);
 
-                // okay here need to make it so the find best hand function checks against the whoel list
-        }
+        return winners;
     }
 
     // set up to return player that was removed to playersUI to cleanup canvas objects
