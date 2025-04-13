@@ -61,7 +61,6 @@ public class Deck : MonoBehaviour
     }
     public Card Draw()
     {
-        Debug.Log("drawing");
         if (cardIndex >= cards.Count)
             Debug.LogError("END OF DECK REACHED!");
 

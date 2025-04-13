@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,33 +61,48 @@ public class SessionManager : MonoBehaviour
             Deck.Instance().Shuffle();
 
             // re-deal
-            communityCards.AddCards(3);
+            communityCards.AddCards(1);
             foreach (Player player in players)
                 player.AddCards(2);
         }
         else
         {
+            // setup debug players
             foreach (GameObject debugPlayer in GameObject.FindGameObjectsWithTag("Player"))
                 players.Add(debugPlayer.GetComponent<Player>());
         }
 
         List<Player> winningPlayers = FindWinningHand();
-        foreach (Player player in winningPlayers)
-            player.SetWinnerGraphicsOn(true);
+        //foreach (Player player in winningPlayers)
+        //    player.SetWinnerGraphicsOn(true);
 
-        // here mess with stastiics for winning hand too
+        // here mess with statistics for winning hand too
+    }
+
+    private void DebugPrintCard(Card card)
+    {
+        Debug.Log(card.Rank + ", " + card.Suit);
     }
 
     private List<Player> FindWinningHand()
     {
-        foreach (Player player in players)
-            player.DetermineHand(communityCards.GetCards());
+        // print every 2 card combination of the first player's cards
+        List<Card> cards = players[0].hand;
+        for (int i = 0; i < cards.Count; i++)
+        {
+            DebugPrintCard(cards[i]);
+        }
 
-        List<Player> winners = new List<Player>{ players[0] };
-        for (int i = 1; i < players.Count; i++)
-            winners = CardInfo.FindBestHand(winners, players[i]);
+        //foreach (Player player in players)
+        //    player.DetermineHand(communityCards.GetCards());
+        //
+        //List<Player> winners = new List<Player>{ players[0] };
+        //for (int i = 1; i < players.Count; i++)
+        //    winners = CardInfo.FindBestHand(winners, players[i]);
 
-        return winners;
+        //return winners;
+
+        return players;
     }
 
     // set up to return player that was removed to playersUI to cleanup canvas objects
